@@ -180,8 +180,12 @@
 
     function setFontSize(size) {
       document.documentElement.style.fontSize = `${size}px`;
+      localStorage.setItem('fontSize', size);
     }
 
-    setFontSize(document.documentElement.clientWidth / 30);
+    setFontSize(
+      localStorage.getItem('fontSize') ||
+        document.documentElement.clientWidth / 30,
+    );
   </script>
 </html>
