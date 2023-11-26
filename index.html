@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 16px">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Open+Sans:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      html {
+        color: #fff;
+        font-family: 'Kdam Thmor Pro', Helvetica, sans-serif;
+        text-align: center;
+        line-height: 1;
+      }
+
+      body {
+        display: flex;
+        user-select: none;
+      }
+
+      .team {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .score {
+        font-size: 10rem;
+      }
+
+      .button {
+        width: 2.5rem;
+        font-size: 2.5rem;
+      }
+
+      .decrement {
+        position: absolute;
+        bottom: 0;
+      }
+
+      #blue {
+        background-color: #1d4ed8;
+      }
+
+      #red {
+        background-color: #b91c1c;
+      }
+
+      #divider {
+        width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+      }
+
+      #font {
+        position: absolute;
+        top: 0.25rem;
+        display: flex;
+        align-items: end;
+        gap: 0.5rem;
+      }
+
+      #font .button {
+        width: 1rem;
+        font-size: 1rem;
+      }
+
+      #font #decreaseFont {
+        font-size: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="blue" class="team">
+      <span class="score">0</span>
+      <span class="button decrement">-</span>
+    </div>
+    <div id="divider">
+      <div id="font">
+        <span id="decreaseFont" class="button">A</span>
+        <span id="increaseFont" class="button">A</span>
+      </div>
+      <span id="restart" class="button">X</span>
+    </div>
+    <div id="red" class="team">
+      <span class="score">0</span>
+      <span class="button decrement">-</span>
+    </div>
+  </body>
+  <script type="text/javascript">
+    const blue = document.querySelector('#blue');
+    const red = document.querySelector('#red');
+    const blueScore = document.querySelector('#blue .score');
+    const redScore = document.querySelector('#red .score');
+    const blueDecrement = document.querySelector('#blue .decrement');
+    const redDecrement = document.querySelector('#red .decrement');
+    const increaseFont = document.querySelector('#increaseFont');
+    const decreaseFont = document.querySelector('#decreaseFont');
+    const restart = document.querySelector('#restart');
+
+    blue.addEventListener('click', () => addScore(blueScore, 1));
+
+    red.addEventListener('click', () => addScore(redScore, 1));
+
+    blueDecrement.addEventListener('click', (event) => {
+      event.stopPropagation();
+      addScore(blueScore, -1);
+    });
+
+    redDecrement.addEventListener('click', (event) => {
+      event.stopPropagation();
+      addScore(redScore, -1);
+    });
+
+    function addScore(team, amount) {
+      team.innerText = Math.max(0, parseInt(team.innerText) + amount);
+    }
+
+    restart.addEventListener('click', () => {
+      if (confirm('Começar de novo?')) {
+        blueScore.innerText = 0;
+        redScore.innerText = 0;
+      }
+    });
+
+    increaseFont.addEventListener('click', () => addFontSize(1));
+
+    decreaseFont.addEventListener('click', () => addFontSize(-1));
+
+    function addFontSize(amount) {
+      const currentSize =
+        parseInt(document.documentElement.style.fontSize) || 0;
+      const newSize = Math.max(0, currentSize + amount);
+      setFontSize(newSize);
+    }
+
+    function setFontSize(size) {
+      document.documentElement.style.fontSize = `${size}px`;
+    }
+
+    setFontSize(document.documentElement.clientWidth / 30);
+  </script>
+</html>
